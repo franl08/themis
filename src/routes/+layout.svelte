@@ -32,7 +32,7 @@
 		<slot />
 	</div>
 
-	<div class="flex justify-center text-sm text-slate-600 dark:text-white">
+	<div class="flex justify-center w-screen text-sm text-slate-600 dark:text-white">
 		<p>RPCW2023</p>
 	</div>
 </div>
