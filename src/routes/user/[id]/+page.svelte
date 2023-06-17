@@ -5,6 +5,7 @@
 	import '../../../app.css';
 	/** @type {import('./$types').PageData} */
 	export let data;
+	export let username = '';
 </script>
 
 <div class="flex flex-col mt-10">
@@ -30,7 +31,9 @@
 			<p class="flex justify-center text-xl dark:text-white">{data.saved}</p>
 		</div>
 	</div>
-	<div class="flex flex-row justify-center mt-7">
-		<a href="/user/{data.username}/edit"><Button>Editar Perfil</Button></a>
-	</div>
+	{#if data.username === username}
+		<div class="flex flex-row justify-center mt-7">
+			<a href="/user/{data.username}/edit"><Button>Editar Perfil</Button></a>
+		</div>
+	{/if}
 </div>
