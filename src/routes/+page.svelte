@@ -54,7 +54,7 @@
 					themis
 				</p>
 				{#if showThemis}
-					<div class="absolute bottom-24 z-0 hidden overflow-visible md:block">
+					<div class="absolute top-20 z-0 hidden overflow-visible md:block">
 						<Themis classAttribute="w-20 h-20" />
 					</div>
 				{/if}
@@ -110,12 +110,5 @@
 <style>
 	.themis-container.show {
 		transition: height 0.3s ease-in-out;
-	}
-
-	.name {
-		position: relative;
-		display: flex;
-		align-items: center;
-		justify-content: center;
 	}
 </style>

@@ -19,7 +19,7 @@
 	export let isAdmin = false;
 </script>
 
-<div class="h-screen bg-white dark:bg-indigo-950">
+<div class="flex flex-col h-screen bg-white dark:bg-indigo-950">
 	{#if loggedIn && isAdmin}
 		<Sidebar bind:open options={adminOptions} />
 	{:else if loggedIn}
@@ -28,7 +28,7 @@
 		<Sidebar bind:open options={simpleOptions} />
 	{/if}
 	<Navbar bind:sidebar={open} />
-	<div class="h-5/6">
+	<div class="h-5/6 w-auto">
 		<slot />
 	</div>
 
