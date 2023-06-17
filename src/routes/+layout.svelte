@@ -1,7 +1,33 @@
 <script>
+	import Sidebar from '$lib/Sidebar.svelte';
+	import Navbar from '$lib/Navbar.svelte';
+	let open = false;
+	let simpleOptions = [
+		{ name: 'Home', href: '/' },
+		{ name: 'Login', href: '/login' },
+		{ name: 'Register', href: '/register' }
+	];
+	let loggedInOptions = [
+		{ name: 'Home', href: '/' },
+		{ name: 'Saved', href: '/saved' },
+		{ name: 'Profile', href: '/profile' },
+		{ name: 'Logout', href: '/logout' }
+		// ...
+	];
+	let adminOptions = loggedInOptions.concat([{ name: 'Reviews', href: '/review' }]);
+	export let loggedIn = false;
+	export let isAdmin = false;
 </script>
 
-<div class="h-screen bg-white dark:bg-slate-900">
+<div class="h-screen bg-white dark:bg-indigo-950">
+	{#if loggedIn && isAdmin}
+		<Sidebar bind:open options={adminOptions} />
+	{:else if loggedIn}
+		<Sidebar bind:open options={loggedInOptions} />
+	{:else}
+		<Sidebar bind:open options={simpleOptions} />
+	{/if}
+	<Navbar bind:sidebar={open} />
 	<div class="h-5/6">
 		<slot />
 	</div>
@@ -12,38 +38,4 @@
 </div>
 
 <style>
-	.app {
-		display: flex;
-		flex-direction: column;
-		min-height: 100vh;
-	}
-
-	main {
-		flex: 1;
-		display: flex;
-		flex-direction: column;
-		padding: 1rem;
-		width: 100%;
-		max-width: 64rem;
-		margin: 0 auto;
-		box-sizing: border-box;
-	}
-
-	footer {
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
-		padding: 12px;
-	}
-
-	footer a {
-		font-weight: bold;
-	}
-
-	@media (min-width: 480px) {
-		footer {
-			padding: 12px 0;
-		}
-	}
 </style>
