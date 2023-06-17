@@ -3,9 +3,11 @@
 	import LawHammerIcon from '$lib/LawHammerIcon.svelte';
 	import Modal from '$lib/Modal.svelte';
 	import Button from '$lib/Button.svelte';
+	import Themis from '$lib/Themis.svelte';
 
 	export let loggedIn = false;
 	let showModal = false; // Flag to control the modal visibility
+	let showThemis = false;
 
 	function openModal() {
 		showModal = true;
@@ -24,6 +26,14 @@
 			openModal(); // Open the modal if not logged in
 		}
 	}
+
+	function makeThemisAppear() {
+		showThemis = true;
+	}
+
+	function makeThemisDisappear() {
+		showThemis = false;
+	}
 </script>
 
 <svelte:head>
@@ -33,13 +43,22 @@
 
 <div class="flex flex-col w-full h-5/6 justify-evenly">
 	<div class="flex flex-col h-1/2 justify-center w-full">
-		<h1 class="flex justify-center text-9xl font-bold text-center dark:text-white">
+		<h1 class="name flex justify-center text-9xl font-bold text-center dark:text-white">
 			acor
-			<p
-				class="text-pink-700 hover:underline hover:decoration-4 hover:decoration-black dark:hover:decoration-white hover:underline-offset-8"
-			>
-				themis
-			</p>
+			<div class="flex flex-col justify-center items-center">
+				<p
+					class="text-pink-700 hover:underline hover:decoration-4 hover:{makeThemisAppear} hover:decoration-black dark:hover:decoration-white hover:underline-offset-8"
+					on:mouseenter={makeThemisAppear}
+					on:mouseleave={makeThemisDisappear}
+				>
+					themis
+				</p>
+				{#if showThemis}
+					<div class="absolute bottom-24 z-0 hidden overflow-visible md:block">
+						<Themis classAttribute="w-20 h-20" />
+					</div>
+				{/if}
+			</div>
 		</h1>
 		<h6 class="text-center text-xl dark:text-white">Está na hora de acordar a Themis.</h6>
 	</div>
@@ -87,3 +106,16 @@
 		</div>
 	</Modal>
 </div>
+
+<style>
+	.themis-container.show {
+		transition: height 0.3s ease-in-out;
+	}
+
+	.name {
+		position: relative;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+</style>
