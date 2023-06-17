@@ -31,6 +31,6 @@
 		</div>
 	</div>
 	<div class="flex flex-row justify-center mt-7">
-		<a href="/{data.username}/edit"><Button>Editar Perfil</Button></a>
+		<a href="/user/{data.username}/edit"><Button>Editar Perfil</Button></a>
 	</div>
 </div>
