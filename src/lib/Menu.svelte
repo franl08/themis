@@ -1,6 +1,6 @@
 <script>
-	export let loggedIn = false;
-	export let username = '';
+	export let loggedIn = true;
+	export let username = 'username';
 </script>
 
 {#if loggedIn}
