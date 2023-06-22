@@ -2,21 +2,31 @@
 	import Sidebar from '$lib/Sidebar.svelte';
 	import Navbar from '$lib/Navbar.svelte';
 	let open = false;
+	const username = 'username';
 	let simpleOptions = [
-		{ name: 'Home', href: '/' },
-		{ name: 'Login', href: '/login' },
-		{ name: 'Register', href: '/register' }
+		{ name: 'Página Principal', href: '/' },
+		{ name: 'Iniciar Sessão', href: '/login' },
+		{ name: 'Registar', href: '/register' },
+		{ name: 'Sobre Nós', href: '/about' }
 	];
 	let loggedInOptions = [
-		{ name: 'Home', href: '/' },
-		{ name: 'Saved', href: '/saved' },
-		{ name: 'Profile', href: '/profile' },
-		{ name: 'Logout', href: '/logout' }
+		{ name: 'Página Principal', href: '/' },
+		{ name: 'Guardados', href: `/user/saved/${username}` },
+		{ name: 'Perfil', href: `/user/${username}` },
+		{ name: 'Sobre Nós', href: '/about' },
+		{ name: 'Terminar Sessão', href: '/logout' }
 		// ...
 	];
-	let adminOptions = loggedInOptions.concat([{ name: 'Reviews', href: '/review' }]);
-	export let loggedIn = false;
-	export let isAdmin = false;
+	let adminOptions = [
+		{ name: 'Página Principal', href: '/' },
+		{ name: 'Guardados', href: `/user/saved/${username}` },
+		{ name: 'Perfil', href: `/user/${username}` },
+		{ name: 'Reviews', href: '/reviews' },
+		{ name: 'Sobre Nós', href: '/about' },
+		{ name: 'Terminar Sessão', href: '/logout' }
+	];
+	export let loggedIn = true;
+	export let isAdmin = true;
 </script>
 
 <div class="flex flex-col h-screen bg-white dark:bg-indigo-950">
@@ -32,7 +42,7 @@
 		<slot />
 	</div>
 
-	<div class="flex justify-center text-sm text-slate-600 dark:text-white">
+	<div class="flex justify-center w-screen text-sm text-slate-600 dark:text-white">
 		<p>RPCW2023</p>
 	</div>
 </div>
