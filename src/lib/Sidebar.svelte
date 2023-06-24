@@ -4,6 +4,7 @@
 	export let options;
 </script>
 
+<!-- svelte-ignore a11y-click-events-have-key-events -->
 <aside class="absolute h-full bg-gray-200 dark:bg-violet-950 shadow-lg" class:open>
 	<nav class="mt-20 text-xl dark:text-white">
 		{#each options as option}
