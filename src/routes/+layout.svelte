@@ -2,10 +2,12 @@
 	import Sidebar from '$lib/Sidebar.svelte';
 	import Navbar from '$lib/Navbar.svelte';
 	let open = false;
+	const username = 'username';
 	let simpleOptions = [
-		{ name: 'Home', href: '/' },
-		{ name: 'Login', href: '/login' },
-		{ name: 'Register', href: '/register' }
+		{ name: 'Página Principal', href: '/' },
+		{ name: 'Iniciar Sessão', href: '/login' },
+		{ name: 'Registar', href: '/register' },
+		{ name: 'Sobre Nós', href: '/about' }
 	];
 	let loggedInOptions = [
 		{ name: 'Home', href: '/' },
@@ -43,7 +45,7 @@
 		<slot />
 	</div>
 
-	<div class="flex justify-center text-sm text-slate-600 dark:text-white">
+	<div class="flex justify-center w-screen text-sm text-slate-600 dark:text-white">
 		<p>RPCW2023</p>
 	</div>
 </div>
