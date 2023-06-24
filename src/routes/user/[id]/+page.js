@@ -10,15 +10,8 @@ export async function load({ params }) {
 		username: id,
 		name: 'John Doe',
 		email: 'email@example.com',
-<<<<<<< HEAD
 		lists: 0,
 		edited: 0,
-=======
-		likes: 0,
-		added: 0,
-		edited: 0,
-		saved: 0,
->>>>>>> 6ed47f97a797b07374b0593331d26aea8c03b2c1
 		registeredOn: new Date()
 	};
 

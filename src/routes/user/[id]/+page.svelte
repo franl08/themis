@@ -13,7 +13,6 @@
 	<h2 class="flex justify-center text-4xl dark:text-white font-bold">{data.username}</h2>
 	<h3 class="flex justify-center text-md text-gray-500">{data.email}</h3>
 	<h4 class="flex justify-center text-sm text-gray-500">Membro desde: {data.registeredOn}</h4>
-<<<<<<< HEAD
 	<div class="flex flex-row mt-7 ml-40 mr-40 justify-evenly">
 		<div class="flex flex-col">
 			<h4 class="flex text-2xl text-pink-700">Sugestões</h4>
@@ -22,24 +21,6 @@
 		<div class="flex flex-col">
 			<h4 class="flex text-2xl text-pink-700">Listas</h4>
 			<p class="flex justify-center text-xl dark:text-white">{data.lists}</p>
-=======
-	<div class="flex flex-row justify-center mt-7">
-		<div class="flex flex-col mr-16">
-			<h4 class="flex justify-center text-2xl text-pink-700">Acórdãos Adicionados</h4>
-			<p class="flex justify-center text-xl dark:text-white">{data.added}</p>
-		</div>
-		<div class="flex flex-col mr-16">
-			<h4 class="flex justify-center text-2xl text-pink-700">Acórdãos Editados</h4>
-			<p class="flex justify-center text-xl dark:text-white">{data.edited}</p>
-		</div>
-		<div class="flex flex-col mr-16">
-			<h4 class="flex justify-center text-2xl text-pink-700">Gostos</h4>
-			<p class="flex justify-center text-xl dark:text-white">{data.likes}</p>
-		</div>
-		<div class="flex flex-col mr-16">
-			<h4 class="flex justify-center text-2xl text-pink-700">Guardados</h4>
-			<p class="flex justify-center text-xl dark:text-white">{data.saved}</p>
->>>>>>> 6ed47f97a797b07374b0593331d26aea8c03b2c1
 		</div>
 	</div>
 	{#if data.username === username}

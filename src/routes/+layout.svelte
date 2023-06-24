@@ -10,20 +10,16 @@
 		{ name: 'Sobre Nós', href: '/about' }
 	];
 	let loggedInOptions = [
-		{ name: 'Home', href: '/' },
-		{ name: 'Saved', href: '/saved' },
-		{ name: 'Profile', href: '/profile' },
-		{ name: 'Logout', href: '/logout' }
 		{ name: 'Página Principal', href: '/' },
 		{ name: 'Listas', href: `/user/lists` },
-		{ name: 'Perfil', href: `/user` },
+		{ name: 'Perfil', href: `/user/${username}` },
 		{ name: 'Sobre Nós', href: '/about' },
 		{ name: 'Terminar Sessão', href: '/logout' }
 		// ...
 	];
-	let adminOptions = loggedInOptions.concat([{ name: 'Reviews', href: '/review' }]);
-	export let loggedIn = false;
-	export let isAdmin = false;
+	let adminOptions = loggedInOptions.concat([{ name: 'Reviews', href: '/reviews' }]);
+	export let loggedIn = true;
+	export let isAdmin = true;
 
 	function toggleSidebar() {
 		open = !open;
