@@ -23,7 +23,7 @@ export const actions = {
 		if (result.status !== 200) {
 			return {
 				success: false,
-				error: result.body.error
+				error: 'Login failed'
 			};
 		}
 
