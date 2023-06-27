@@ -1,25 +1,26 @@
 <script>
 	import Sidebar from '$lib/Sidebar.svelte';
 	import Navbar from '$lib/Navbar.svelte';
+	import { username, role } from '../stores';
 	let open = false;
-	const username = 'username';
+	username.set("john")
+	role.set("ADMIN")
 	let simpleOptions = [
-		{ name: 'Página Principal', href: '/' },
 		{ name: 'Iniciar Sessão', href: '/login' },
 		{ name: 'Registar', href: '/register' },
+		{ name: 'Constituição', href: 'https://www.parlamento.pt/Legislacao/Paginas/ConstituicaoRepublicaPortuguesa.aspx'},
 		{ name: 'Sobre Nós', href: '/about' }
 	];
 	let loggedInOptions = [
 		{ name: 'Página Principal', href: '/' },
+		{name : 'Acórdãos', href: '/acordaos'},
 		{ name: 'Listas', href: `/user/lists` },
-		{ name: 'Perfil', href: `/user/${username}` },
+		{ name: 'Perfil', href: `/user/${$username}` },
 		{ name: 'Sobre Nós', href: '/about' },
 		{ name: 'Terminar Sessão', href: '/logout' }
 		// ...
 	];
 	let adminOptions = loggedInOptions.concat([{ name: 'Reviews', href: '/reviews' }]);
-	export let loggedIn = true;
-	export let isAdmin = true;
 
 	function toggleSidebar() {
 		open = !open;
@@ -29,9 +30,9 @@
 {#if open}
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <div class="flex flex-col h-screen bg-white dark:bg-indigo-950" on:click={toggleSidebar}>
-	{#if loggedIn && isAdmin}
+	{#if $username !== '' && $role === "ADMIN"}
 		<Sidebar bind:open options={adminOptions} />
-	{:else if loggedIn}
+	{:else if $username !== ''}
 		<Sidebar bind:open options={loggedInOptions} />
 	{:else}
 		<Sidebar bind:open options={simpleOptions} />
@@ -48,9 +49,9 @@
 
 {:else}
 <div class="flex flex-col h-screen bg-white dark:bg-indigo-950">
-	{#if loggedIn && isAdmin}
+	{#if $username !== "" && $role === "ADMIN"}
 		<Sidebar bind:open options={adminOptions} />
-	{:else if loggedIn}
+	{:else if $username !== ""}
 		<Sidebar bind:open options={loggedInOptions} />
 	{:else}
 		<Sidebar bind:open options={simpleOptions} />

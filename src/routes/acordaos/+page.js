@@ -12,7 +12,7 @@ export async function load({ params, fetch }) {
 			`https://api.juris.ninja/acordaos?page=${page}&orderBy=${orderBy}&keywords=${keywords}`
 		);
 
-		const data = await res.json();
+		//const data = await res.json();
 		return data;
 	}
 

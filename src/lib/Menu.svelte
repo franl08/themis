@@ -1,12 +1,11 @@
 <script>
-	export let loggedIn = true;
-	export let username = 'username';
+	import { username } from '../stores';
 </script>
 
-{#if loggedIn}
+{#if $username !== ''}
 	<nav class="hidden dark:text-white text-pink-700 uppercase text-bold sm:block">
 		<p class="mr-4 dark:hover:text-gray-700 hover:text-pink-800 hover:no-underline">
-			Olá, {username}!
+			Olá, {$username}!
 		</p>
 	</nav>
 {:else}
