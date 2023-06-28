@@ -7,10 +7,12 @@ export const actions = {
 		const formData = await request.formData();
 		let data = {};
 		for (const [key, value] of formData.entries()) {
+			console.log(key, value);
 			if (key === 'username_') {
 				data['username'] = value;
+			} else {
+				data[key] = value;
 			}
-			data[key] = value;
 		}
 
 		const result = await fetch(`${BACKEND_URL}/users`, {
@@ -25,16 +27,19 @@ export const actions = {
 		if (result.status !== 200) {
 			return {
 				success: false,
-				error: result.body.error
+				error: 'Error creating user.'
 			};
 		}
 
 		const json = await result.json();
 
+		console.log(json);
+
 		return {
 			success: true,
 			token: json.token,
-			user: json.user
+			user: json.user.username,
+			role: json.user.role
 		};
 	}
 };

@@ -2,16 +2,24 @@
 	import '../../app.css';
 	import Button from '$lib/Button.svelte';
 	import Themis from '$lib/Themis.svelte';
-	import { username, jwt, role } from '../../stores';
+	import { session } from '../../stores';
+	import { goto } from '$app/navigation';
+	import {browser} from "$app/environment"; 
+	import { setContext } from 'svelte';
+	import { writable } from 'svelte/store';
 
 	export let form;
 	$: form, updateUser();
 
 	function updateUser() {
-		if (form && form.success) {
-			username.set(form.user.username);
-			jwt.set(form.token);
-			role.set(form.user.role);
+		if (form && form?.success) {
+			session.set({user: form.user.username, role: form.user.role, token: form.token});
+			if(browser) {
+				//window.localStorage.setItem('username', form.user.username);
+				//window.localStorage.setItem('role', form.user.role);
+				//window.localStorage.setItem('jwt', form.token);
+				goto('/');
+			}
 		}
 	}
 

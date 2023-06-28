@@ -4,13 +4,16 @@
 	import Modal from '$lib/Modal.svelte';
 	import Button from '$lib/Button.svelte';
 	import Themis from '$lib/Themis.svelte';
-	import { username } from '../stores';
+	import { session } from '../stores';
+
 	/** @type boolean*/
 	let loggedIn;
 	let showModal = false; // Flag to control the modal visibility
 	let showThemis = false;
+	/** @type String | null*/
+	let user = $session.user;
 
-	if($username === '') {
+	if(user === '') {
 		loggedIn = false;
 	} else {
 		loggedIn = true;
@@ -86,8 +89,8 @@
 		</div>
 
 		<div class="mt-10">
-			{#if $username === ''}
-				<Button on:click(console.log($username))>Pesquisar</Button>
+			{#if user === ''}
+				<Button>Pesquisar</Button>
 			{:else}
 				<Button on:click={openModal}>Pesquisar</Button>
 			{/if}

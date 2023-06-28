@@ -1,14 +1,14 @@
 <script>
 	// @ts-nocheck
 	import '../app.css';
-
+	import { session } from './../stores.js';
 	import { page } from '$app/stores';
 	import Button from '$lib/Button.svelte';
 </script>
 
 <div class="flex flex-col mt-5">
 	<h1 class="flex text-4xl ml-20 text-pink-700 uppercase font-bold">
-		Parece-me que vamos ter de adiar o processo...
+		Parece-me que vamos ter de adiar o processo... {$session.username}
 	</h1>
 	<h2 class="flex text-3xl ml-20 text-pink-700 uppercase font-bold mt-6">
 		Erro {$page.status}: {$page.error.message}

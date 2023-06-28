@@ -1,11 +1,11 @@
 <script>
-	import { username } from '../stores';
+	import { session } from '../stores';
 </script>
 
-{#if $username !== ''}
+{#if $session.user !== ''}
 	<nav class="hidden dark:text-white text-pink-700 uppercase text-bold sm:block">
 		<p class="mr-4 dark:hover:text-gray-700 hover:text-pink-800 hover:no-underline">
-			Olá, {$username}!
+			Olá, {$session.user}!
 		</p>
 	</nav>
 {:else}

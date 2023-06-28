@@ -1,5 +1,4 @@
 // @ts-nocheck
-import { id } from '$lib/stores/user';
 export async function load({ params, fetch }) {
 	const page = params.page.url.searchParams.get('page');
 	const orderBy = params.page.url.searchParams.get('orderBy');
@@ -10,7 +9,7 @@ export async function load({ params, fetch }) {
 		if (!orderBy) orderBy = 'data';
 		if (!keywords) keywords = '';
 		const res = await fetch(
-			`https://api.juris.ninja/acordaos/saved?page=${page}&orderBy=${orderBy}&keywords=${keywords}&user=${id}`
+			`https://api.juris.ninja/acordaos/saved?page=${page}&orderBy=${orderBy}&keywords=${keywords}`
 		);
 
 		const data = await res.json();

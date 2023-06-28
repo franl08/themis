@@ -3,7 +3,6 @@ import { error } from '@sveltejs/kit';
 /** @type {import('./$types').PageLoad} */
 export async function load({ params }) {
 	const { id } = params;
-
 	// get user from DB
 
 	const user = {

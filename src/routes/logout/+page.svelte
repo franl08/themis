@@ -1,11 +1,12 @@
 <script>
+	import '../../app.css';
+	import { session } from '../../stores';
 	import { goto } from '$app/navigation';
-	import { username, role, jwt } from '../../stores';
+	import { browser } from '$app/environment';
 
+	session.set({user: '', role: '', token: ''});
 	// clear data
-	username.set('');
-	role.set('');
-	jwt.set('');
-
-	goto('/');
+	if(browser) {
+		goto('/');
+	}
 </script>

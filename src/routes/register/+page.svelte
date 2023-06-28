@@ -3,7 +3,8 @@
 
 	import Button from '$lib/Button.svelte';
     import '../../app.css';
-    import { username, jwt, role } from '../../stores';
+    import { session } from '../../stores';
+	import {browser} from "$app/environment"; 
 	/** @type {import('./$types').PageData} */
 
     export let form;
@@ -14,9 +15,10 @@
 
     function updateUser() {
         if (form && form.success) {
-            username.set(form.user.username)
-            jwt.set(form.user.token)
-            role.set(form.user.role)
+			session.set({user: form.username, role: form.role, token: form.token})
+			if(browser) {
+				goto('/');
+			}
         }
     }
 </script>

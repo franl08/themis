@@ -1,5 +1,7 @@
-import { writable } from 'svelte/store';
+import { persisted } from 'svelte-local-storage-store';
 
-export const jwt = writable('');
-export const username = writable('');
-export const role = writable('');
+export const session = persisted('session', {
+	token: '',
+	user: '',
+	role: ''
+});

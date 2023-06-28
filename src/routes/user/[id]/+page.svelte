@@ -3,7 +3,7 @@
 
 	import Button from '$lib/Button.svelte';
 	import '../../../app.css';
-	import { username, role } from '../../../stores';
+	import { session } from '../../../stores';
 	/** @type {import('./$types').PageData} */
 	export let data;
 </script>
@@ -23,7 +23,7 @@
 			<p class="flex justify-center text-xl dark:text-white">{data.lists}</p>
 		</div>
 	</div>
-	{#if data.username === $username || $role === 'ADMIN'}
+	{#if data.username === $session.username || $session.role === 'ADMIN'}
 		<div class="flex flex-row justify-center mt-7">
 			<a href="/user/edit/{data.username}"><Button>Editar Perfil</Button></a>
 		</div>
