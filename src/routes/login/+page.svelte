@@ -4,9 +4,7 @@
 	import Themis from '$lib/Themis.svelte';
 	import { session } from '../../stores';
 	import { goto } from '$app/navigation';
-	import {browser} from "$app/environment"; 
-	import { setContext } from 'svelte';
-	import { writable } from 'svelte/store';
+	import { browser } from "$app/environment"; 
 
 	export let form;
 	$: form, updateUser();

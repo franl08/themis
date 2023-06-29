@@ -30,6 +30,7 @@
 	});
 
 	let simpleOptions = [
+		{ name: 'Página Principal', href: '/' },
 		{ name: 'Iniciar Sessão', href: '/login' },
 		{ name: 'Registar', href: '/register' },
 		{ name: 'Constituição', href: 'https://www.parlamento.pt/Legislacao/Paginas/ConstituicaoRepublicaPortuguesa.aspx'},

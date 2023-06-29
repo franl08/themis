@@ -3,24 +3,24 @@
 
 	import Button from '$lib/Button.svelte';
     import '../../app.css';
-    import { session } from '../../stores';
-	import {browser} from "$app/environment"; 
+	import { session } from '../../stores';
+	import { goto } from '$app/navigation';
+	import { browser } from "$app/environment"; 
 	/** @type {import('./$types').PageData} */
 
-    export let form;
-
-    $: form, updateUser();
 
     let username_ = "";
+	export let form;
 
-    function updateUser() {
-        if (form && form.success) {
-			session.set({user: form.username, role: form.role, token: form.token})
+	$: form, updateUser();
+
+	function updateUser() {
+		if (form && form?.success) {
 			if(browser) {
 				goto('/');
 			}
-        }
-    }
+		}
+	}
 </script>
 
 <div class="flex flex-col mt-5">

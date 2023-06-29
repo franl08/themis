@@ -4,28 +4,35 @@
 	import Button from '$lib/Button.svelte';
 	import '../../../app.css';
 	import { session } from '../../../stores';
-	/** @type {import('./$types').PageData} */
-	export let data;
-</script>
+	import { _data } from './+page.js';
+	/** @type {import('./$types').Pageuser} */
+	$_data;
+	console.log(_data);
+	let displayInfo = false;
+	//$: user, updateUser();
+	//console.log(user);
+	console.log($session.user);
 
+	/*function updateUser() {
+		if(user && user?.success) {
+			displayInfo = true;
+			user = user.user;
+		} else if(user) {
+			error = user.error;
+		}
+	}
+*/
+</script>
+{#if $_data}
 <div class="flex flex-col mt-10">
-	<h1 class="flex justify-center text-6xl text-pink-700 uppercase font-bold">{data.name}</h1>
-	<h2 class="flex justify-center text-4xl dark:text-white font-bold">{data.username}</h2>
-	<h3 class="flex justify-center text-md text-gray-500">{data.email}</h3>
-	<h4 class="flex justify-center text-sm text-gray-500">Membro desde: {data.registeredOn}</h4>
-	<div class="flex flex-row mt-7 ml-40 mr-40 justify-evenly">
-		<div class="flex flex-col">
-			<h4 class="flex text-2xl text-pink-700">Sugestões</h4>
-			<p class="flex justify-center text-xl dark:text-white">{data.edited}</p>
-		</div>
-		<div class="flex flex-col">
-			<h4 class="flex text-2xl text-pink-700">Listas</h4>
-			<p class="flex justify-center text-xl dark:text-white">{data.lists}</p>
-		</div>
-	</div>
-	{#if data.username === $session.username || $session.role === 'ADMIN'}
+	<h1 class="flex justify-center text-6xl text-pink-700 uppercase font-bold">{$_data.user.firstname} {$_data.user.lastname}</h1>
+	<h2 class="flex justify-center text-4xl dark:text-white font-bold">{$_data.user.username}</h2>
+	<h3 class="flex justify-center text-md text-gray-500">{$_data.user.email}</h3>
+	<h4 class="flex justify-center text-sm text-gray-500">Membro desde: {$_data.user.registeredOn}</h4>
+	{#if $_data.user.username === $session.user || $session.role === 'ADMIN'}
 		<div class="flex flex-row justify-center mt-7">
-			<a href="/user/edit/{data.username}"><Button>Editar Perfil</Button></a>
+			<a href="/user/edit/{$_data.user.username}"><Button>Editar Perfil</Button></a>
 		</div>
 	{/if}
 </div>
+{/if}

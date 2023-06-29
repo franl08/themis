@@ -1,23 +1,27 @@
-import { error } from '@sveltejs/kit';
+import { BACKEND_URL } from '../../../../global';
+import { session } from '../../../../stores';
+import { get, writable } from 'svelte/store';
+import axios from 'axios';
 
-/** @type {import('../[id]/$types').PageLoad} */
+export const _data = writable({});
+
 export async function load({ params }) {
 	const { id } = params;
 
-	// get user from DB
-
-	const user = {
-		username: id,
-		name: 'John Doe',
-		email: 'email@example.com',
-		likes: 0,
-		added: 0,
-		edited: 0,
-		saved: 0,
-		registeredOn: new Date()
-	};
-
-	return user;
-
-	// return error(404, 'message');
+	axios
+		.get(`${BACKEND_URL}/users/${id}`, {
+			headers: {
+				Authorization: `Bearer ${get(session).token}`
+			}
+		})
+		.then((res) => {
+			if (res.status !== 200) {
+				_data.set({
+					success: false,
+					error: 'User not found'
+				});
+			}
+			console.log(res.data);
+			_data.set({ user: res.data, success: true });
+		});
 }
