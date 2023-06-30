@@ -32,7 +32,7 @@
 		{ name: 'Listas', href: `/user/lists` },
 		{ name: `${$session.user}`, href: `/user/${$session.user}` },
 		{ name: 'Reviews', href: '/reviews'},
-		{ name: 'Utilizadores', href: '/users/search'},
+		{ name: 'Utilizadores', href: '/user/search'},
 		{ name: 'Sobre Nós', href: '/about' },
 		{ name: 'Terminar Sessão', href: '/logout' }
 	]
@@ -64,7 +64,7 @@
 		{ name: 'Listas', href: `/user/lists` },
 		{ name: `${$session.user}`, href: `/user/${$session.user}` },
 		{ name: 'Reviews', href: '/reviews'},
-		{ name: 'Utilizadores', href: '/users/search'},
+		{ name: 'Utilizadores', href: '/user/search'},
 		{ name: 'Sobre Nós', href: '/about' },
 		{ name: 'Terminar Sessão', href: '/logout' }
 		];
