@@ -8,7 +8,11 @@ export const _data = writable({});
 
 export async function load({ params }) {
 	const { id } = params;
-
+	return {
+		id: id
+	};
+	/*
+	console.log(get(session).token)
 	axios
 		.get(`${BACKEND_URL}/users/${id}`, {
 			headers: {
@@ -22,7 +26,13 @@ export async function load({ params }) {
 					error: 'User not found'
 				});
 				throw error(res.status, 'User not found');
+			} else {
+				_data.set({ user: res.data, success: true });
 			}
-			_data.set({ user: res.data, success: true });
+		})
+		.catch((err) => {
+			console.log(err);
+			throw error(500, err);
 		});
+		*/
 }
