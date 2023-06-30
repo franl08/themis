@@ -9,25 +9,13 @@
 
 	let loggedInOptions = [
 		{ name: 'Página Principal', href: '/' },
-		{ name : 'Acórdãos', href: '/acordaos'},
+		{ name: 'Acórdãos', href: '/acordaos'},
+		{ name: 'Sugerir Adição', href: '/acordaos/add'},
 		{ name: 'Listas', href: `/user/lists` },
 		{ name: `${$session.user}`, href: `/user/${$session.user}` },
 		{ name: 'Sobre Nós', href: '/about' },
 		{ name: 'Terminar Sessão', href: '/logout' }
-		// ...
 	];
-
-	onMount(() => {
-		loggedInOptions = [
-		{ name: 'Página Principal', href: '/' },
-		{ name : 'Acórdãos', href: '/acordaos'},
-		{ name: 'Listas', href: `/user/lists` },
-		{ name: `${$session.user}`, href: `/user/${$session.user}` },
-		{ name: 'Sobre Nós', href: '/about' },
-		{ name: 'Terminar Sessão', href: '/logout' }
-		// ...
-		];
-	});
 
 	let simpleOptions = [
 		{ name: 'Página Principal', href: '/' },
@@ -37,7 +25,61 @@
 		{ name: 'Sobre Nós', href: '/about' }
 	];
 
-	let adminOptions = loggedInOptions.concat([{ name: 'Reviews', href: '/reviews' }]);
+	let adminOptions = [
+		{ name: 'Página Principal', href: '/' },
+		{ name: 'Acórdãos', href: '/acordaos'},
+		{ name: 'Sugerir Adição', href: '/acordaos/add'},
+		{ name: 'Listas', href: `/user/lists` },
+		{ name: `${$session.user}`, href: `/user/${$session.user}` },
+		{ name: 'Reviews', href: '/reviews'},
+		{ name: 'Utilizadores', href: '/users/search'},
+		{ name: 'Sobre Nós', href: '/about' },
+		{ name: 'Terminar Sessão', href: '/logout' }
+	]
+
+	let modOptions = [
+		{ name: 'Página Principal', href: '/' },
+		{ name: 'Acórdãos', href: '/acordaos'},
+		{ name: 'Sugerir Adição', href: '/acordaos/add'},
+		{ name: 'Listas', href: `/user/lists` },
+		{ name: `${$session.user}`, href: `/user/${$session.user}` },
+		{ name: 'Reviews', href: '/reviews'},
+		{ name: 'Sobre Nós', href: '/about' },
+		{ name: 'Terminar Sessão', href: '/logout' }
+	]
+
+	onMount(() => {
+		loggedInOptions = [
+		{ name: 'Página Principal', href: '/' },
+		{ name : 'Acórdãos', href: '/acordaos'},
+		{ name: 'Listas', href: `/user/lists` },
+		{ name: `${$session.user}`, href: `/user/${$session.user}` },
+		{ name: 'Sobre Nós', href: '/about' },
+		{ name: 'Terminar Sessão', href: '/logout' }
+		];
+
+		adminOptions = [
+		{ name: 'Página Principal', href: '/' },
+		{ name: 'Acórdãos', href: '/acordaos'},
+		{ name: 'Listas', href: `/user/lists` },
+		{ name: `${$session.user}`, href: `/user/${$session.user}` },
+		{ name: 'Reviews', href: '/reviews'},
+		{ name: 'Utilizadores', href: '/users/search'},
+		{ name: 'Sobre Nós', href: '/about' },
+		{ name: 'Terminar Sessão', href: '/logout' }
+		];
+
+		modOptions = [
+		{ name: 'Página Principal', href: '/' },
+		{ name: 'Acórdãos', href: '/acordaos'},
+		{ name: 'Sugerir Adição', href: '/acordaos/add'},
+		{ name: 'Listas', href: `/user/lists` },
+		{ name: `${$session.user}`, href: `/user/${$session.user}` },
+		{ name: 'Reviews', href: '/reviews'},
+		{ name: 'Sobre Nós', href: '/about' },
+		{ name: 'Terminar Sessão', href: '/logout' }
+		]
+	});
 	
 	function toggleSidebar() {
 		open = !open;
@@ -50,6 +92,8 @@
 <div class="flex flex-col h-screen bg-white dark:bg-indigo-950" on:click={toggleSidebar}>
 	{#if $session.user !== '' && $session.role === "ADMIN"}
 		<Sidebar bind:open options={adminOptions} />
+	{:else if $session.role === 'MODERADOR'}
+		<Sidebar bind:open options={modOptions} />
 	{:else if $session.user !== ''}
 		<Sidebar bind:open options={loggedInOptions} />
 	{:else}
@@ -69,6 +113,8 @@
 <div class="flex flex-col h-screen bg-white dark:bg-indigo-950">
 	{#if $session.user !== "" && $session.role === "ADMIN"}
 		<Sidebar bind:open options={adminOptions} />
+	{:else if $session.role === 'MODERADOR'}
+		<Sidebar bind:open options={modOptions} />
 	{:else if $session.user !== ""}
 		<Sidebar bind:open options={loggedInOptions} />
 	{:else}
