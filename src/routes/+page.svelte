@@ -45,11 +45,6 @@
 	}
 </script>
 
-<svelte:head>
-	<title>acorthemis</title>
-	<meta name="description" content="Acórdãos de forma fácil, útil e simples" />
-</svelte:head>
-
 <div class="flex flex-col w-full h-5/6 justify-evenly">
 	<div class="flex flex-col h-1/2 justify-center w-full">
 		<h1 class="name flex justify-center text-9xl font-bold text-center dark:text-white">

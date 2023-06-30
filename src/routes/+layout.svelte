@@ -87,6 +87,11 @@
 
 </script>
 
+<svelte:head>
+	<title>acorthemis</title>
+	<meta name="description" content="Acórdãos de forma fácil, útil e simples" />
+</svelte:head>
+
 {#if open}
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <div class="flex flex-col h-screen bg-white dark:bg-indigo-950" on:click={toggleSidebar}>
