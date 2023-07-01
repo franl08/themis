@@ -105,7 +105,7 @@
 		<Sidebar bind:open options={simpleOptions} />
 	{/if}
 	<Navbar bind:sidebar={open} />
-	<div class="h-5/6 w-auto">
+	<div class="h-5/6 w-auto overflow-scroll">
 		<slot />
 	</div>
 
@@ -126,7 +126,7 @@
 		<Sidebar bind:open options={simpleOptions} />
 	{/if}
 	<Navbar bind:sidebar={open} />
-	<div class="h-5/6 w-auto">
+	<div class="h-5/6 w-auto overflow-scroll">
 		<slot />
 	</div>
 

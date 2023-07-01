@@ -50,7 +50,7 @@ export async function load({ url }) {
 
 	async function getAcordaos(page, orderBy, keywords) {
 		let filters = {};
-		if (!page) page = 0;
+		if (!page) page = 1;
 		if (!orderBy) orderBy = '_id;desc';
 		else if (orderBy.split(';').length < 2) orderBy += ';desc';
 		if (!keywords) keywords = '';
@@ -80,14 +80,16 @@ export async function load({ url }) {
 				}
 			})
 			.then((res) => {
+				console.log(res.data);
 				return {
-					acordaos: res.data.acordaos.json(),
+					acordaos: res.data.acordaos,
 					itemsPerPage: res.data.itemsPerPage,
 					totalItems: res.data.totalItems,
 					success: true
 				};
 			})
 			.catch((err) => {
+				console.log(err);
 				return {
 					success: false,
 					error: err
