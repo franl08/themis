@@ -83,8 +83,7 @@ export async function load({ url }) {
 				console.log(res.data);
 				return {
 					acordaos: res.data.acordaos,
-					itemsPerPage: res.data.itemsPerPage,
-					totalItems: res.data.totalItems,
+					numPages: Math.ceil(Number(res.data.totalItem) / Number(res.data.itemsPerPage)),
 					success: true
 				};
 			})
