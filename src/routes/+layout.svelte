@@ -89,6 +89,9 @@
 
 <svelte:head>
 	<title>acorthemis</title>
+	<style>
+		@import url('https://fonts.googleapis.com/css2?family=Ubuntu&display=swap');
+	</style> 
 	<meta name="description" content="Acórdãos de forma fácil, útil e simples" />
 </svelte:head>
 
@@ -135,3 +138,10 @@
 	</div>
 </div>
 {/if}
+
+<style global>
+    * {
+            font-family: 'Ubuntu', sans-serif;
+    }
+</style>
+
