@@ -1,75 +1,162 @@
 <script>
 	// @ts-nocheck
-
+	import { browser } from '$app/environment';
+	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
-	import LawHammerIcon from '$lib/LawHammerIcon.svelte';
+	import Button from '$lib/Button.svelte';
+
 	export let data;
 
-	$: totalItems = data.products.total;
-	$: itemsPerPage = data.products.numberItems;
-	$: searchKeywords = page.params.keywords;
-	$: orderBy = page.params.orderBy;
-	$: totalPages = Math.ceil(totalItems / itemsPerPage);
-	$: currentPage = Number($page.params.page) - 1;
+	let params = $page.url.searchParams;
+	console.log(params)
+	let searchKeywords = params.get('keywords');
+	console.log(searchKeywords)
+	let acordaos, currentPage, totalPages, totalItems, itemsPerPage, orderType, orderBy;
+
+
+	if(params.get("orderBy")) {
+		order = params.get("orderBy").split(";");
+		orderBy = order[0];
+		orderType = order[1];
+	} else {
+		orderType = 'desc';
+		orderBy = 'date';
+	}
+
+	$: acordaos, totalItems, itemsPerPage, totalPages, currentPage;
+	$: handleData();
+
+	function handleData() {
+		if (data.success) {
+			acordaos = data.acordaos;
+			totalItems = data.totalItems;
+			itemsPerPage = data.itemsPerPage;
+
+			totalPages = Math.ceil(totalItems / itemsPerPage);
+			if(params.get(page)) {
+				currentPage = Number(params.get(page)) - 1;
+			}
+			else {
+				currentPage = 0;
+			}
+		}
+	}
+
+	function handleOrderBy(order) {
+		orderBy = order;
+		if(browser) {
+			goto(`/acordaos?orderBy=${orderBy};${orderType}&keywords=${searchKeywords ? searchKeywords : ''}`);
+		}
+	}
+
+	function handleOrderType(order) {
+		orderType = order;
+		if(browser) {
+			goto(`/acordaos?orderBy=${orderBy};${orderType}&keywords=${searchKeywords ? searchKeywords : ''}`);
+		}
+	}
+
 </script>
 
-<div class="flex flex-col mt-5">
+<div class="flex flex-col mt-5 w-full">
 	<h1 class="flex text-6xl ml-20 text-pink-700 uppercase font-bold">Acórdãos</h1>
-	<div class="flex-col mt-4 justify-center items-center">
+	<div class="flex-col mt-4 justify-center items-center ml-20 w-2/3">
 		<form class="flex flex-col items-center" action="/acordaos" method="get">
-			<div class="relative">
 				<input
 					class="placeholder:italic placeholder:text-slate-400 block bg-white w-full border border-slate-300 rounded-md py-2 pl-9 pr-3 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm"
 					placeholder={searchKeywords ? searchKeywords : 'Pesquisar...'}
 					type="text"
 					name="keywords"
+					value:bind:searchKeywords
 				/>
-				<div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-					<LawHammerIcon classAttribute="w-5 h-5" />
-				</div>
-			</div>
 		</form>
-		<table class="dark-text-white">
-			<tr>
-				<a href="/acordaos?orderBy=acordao&keywords={searchKeywords ? searchKeywords : ''}"
-					><th>Acórdão</th></a
-				>
-				<a href="/acordaos?orderBy=relator&keywords={searchKeywords ? searchKeywords : ''}"
-					><th>Relator</th></a
-				>
-				<a href="/acordaos?orderBy=orgao&keywords={searchKeywords ? searchKeywords : ''}"
-					><th>Órgão Julgador</th></a
-				>
-				<a href="/acordaos?orderBy=data&keywords={searchKeywords ? searchKeywords : ''}"
-					><th>Data</th></a
-				>
-			</tr>
-			{#each data.acordaos.acordaos as acordao}
-				<a href="/acordaos/{acordao.id}">
-					<tr>
-						<td>{acordao.numero}</td>
-						<td>{acordao.relator}</td>
-						<td>{acordao.orgaoJulgador}</td>
-						<td>{acordao.data}</td>
-					</tr>
-				</a>
-			{/each}
-		</table>
-		<div class="mt-3 dark:text-white">
-			{#each Array(totalPages) as _, i}
-				<a
-					href="/acordaos?page={i + 1}&keywords={searchKeywords
-						? searchKeywords
-						: ''}&orderBy={orderBy ? orderBy : ''}"
-					class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-pink-700 hover:bg-pink-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500 {currentPage ===
-					i
-						? 'text-pink-900'
-						: ''}"
-					aria-current="page"
-				>
-					{i + 1}
-				</a>
-			{/each}
+		<div class="flex flex-col">
+			<h4 class="text-md mt-4 dark:text-white">Ordenar por:</h4>
+		<div class="flex flex-row mt-2 ml-10">
+			<button on:click={() => handleOrderBy("_id")}><Button>_id</Button></button>
+			<button class="ml-2" on:click={() => handleOrderBy("processo")}><Button>Processo</Button></button>
+			<button class="ml-2" on:click={() => handleOrderBy("data")}><Button>Data do Acórdão</Button></button>
+			<button class="ml-2" on:click={() => handleOrderBy("url")}><Button>URL</Button></button>
+		</div>
+		<div class="flex flex-col">
+			<h4 class="text-md mt-4 dark:text-white">Tipo de Ordenação:</h4>
+		<div class="flex flex-row mt-2 ml-10">
+			<button on:click={() => handleOrderType("asc")}><Button>Ascendente</Button></button>
+			<button class="ml-2" on:click={() => handleOrderType("desc")}><Button>Descendente</Button></button>
 		</div>
 	</div>
+	{#if data?.success}
+		<div class="flex flex-col mt-2 dark:text-white">
+		{#each acordaos as acordao}
+		<div class="flex flex-col mt-2">
+			<div class="flex flex-row justify-evenly">
+				<div class="flex flex-col justify-evenly">
+					<div class="flex flex-row">
+						<p class="text-2xl font-bold">Processo: </p>
+						<p class="text-2xl ml-2">{acordao.processo}</p>
+					</div>
+					<div class="flex flex-row">
+						<p class="text-2xl font-bold">Data do Acórdão: </p>
+						<p class="text-2xl ml-2">{acordao.data}</p>
+					</div>
+					<div class="flex flex-row">
+						<p class="text-2xl font-bold">URL: </p>
+						<p class="text-2xl ml-2">{acordao.url}</p>
+					</div>
+				</div>
+				<a href="/acordaos/{acordao._id}"><Button>Ver Acórdão</Button></a>
+			</div>
+		</div>
+		{/each}
+		</div>
+		<div class="mt-3 dark:text-white">
+			{#if currentPage > 0 && currentPage < totalPages - 1}
+			<div class="flex flex-row justify-evenly">
+				<a
+					href="/acordaos?page={currentPage - 1}&keywords={searchKeywords
+						? searchKeywords
+						: ''}&orderBy={orderBy ? `${orderBy};${orderType}` : '_id;desc'}"
+				>
+					<Button>Anterior</Button>
+				</a>
+				<a
+				href="/acordaos?page={currentPage + 1}&keywords={searchKeywords
+					? searchKeywords
+					: ''}&orderBy={orderBy ? `${orderBy};${orderType}` : '_id;desc'}"
+				>
+					<Button>Próxima</Button>
+				</a>
+			</div>
+			{:else if currentPage === 0 && currentPage < totalPages - 1}
+			<div class="flex flex-row justify-evenly">
+				<Button type="secondary">Anterior</Button>
+				<a
+				href="/acordaos?page={currentPage + 1}&keywords={searchKeywords
+					? searchKeywords
+					: ''}&orderBy={orderBy ? `${orderBy};${orderType}` : '_id;desc'}"
+				>
+					<Button>Próxima</Button>
+				</a>
+			</div>
+			{:else if currentPage === 0 && currentPage === totalPages - 1}
+			<div class="flex flex-row justify-evenly">
+				<Button type="secondary">Anterior</Button>
+				<Button type="secondary">Próxima</Button>
+			</div>
+			{:else if currentPage > 0 && currentPage === totalPages - 1}
+			<div class="flex flex-row justify-evenly">
+				<a
+				href="/acordaos?page={currentPage - 1}&keywords={searchKeywords
+					? searchKeywords
+					: ''}&orderBy={orderBy ? `${orderBy};${orderType}` : '_id;desc'}"
+				>
+					<Button>Anterior</Button>
+				</a>
+				<Button type="secondary">Próxima</Button>
+			</div>
+			{/if}
+		</div>
+	{/if}
+	</div>
+</div>
 </div>

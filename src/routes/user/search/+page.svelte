@@ -3,13 +3,11 @@
 	import "../../../app.css";
 	import LawHammerIcon from '$lib/LawHammerIcon.svelte';
 	import Button from '$lib/Button.svelte';
-	import Themis from '$lib/Themis.svelte';
 	import { session } from '../../../stores';
     import axios from 'axios';
 	import { goto } from '$app/navigation';
 
     let usertosearch = "";
-	let showThemis = false;
 	let userExists = true;
 
     $: userExists, handleSubmit;
@@ -33,14 +31,6 @@
         }).catch((error) => {
             userExists = false;
         });
-	}
-
-	function makeThemisAppear() {
-		showThemis = true;
-	}
-
-	function makeThemisDisappear() {
-		showThemis = false;
 	}
 </script>
 
