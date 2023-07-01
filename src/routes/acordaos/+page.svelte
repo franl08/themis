@@ -6,20 +6,16 @@
 	import Button from '$lib/Button.svelte';
 
 	export let data;
-	let maxPage = 0;
 
 	$: data;
 
-	$: maxPage = Math.ceil(data.totalItems / data.itemsPerPage);
-
 	let params = $page.url.searchParams;
-	let currentPage;
+	$: currentPage = ($page.url.searchParams.get("page") ? Number($page.url.searchParams.get("page")) : 1);
 	let searchKeywords = params.get('keywords');
 	let orderType, orderBy;
 
-
 	if(params.get("orderBy")) {
-		order = params.get("orderBy").split(";");
+		let order = params.get("orderBy").split(";");
 		orderBy = order[0];
 		orderType = order[1];
 	} else {
@@ -27,14 +23,7 @@
 		orderBy = '_id';
 	}
 
-	if(params.get("page")) {
-		currentPage = Number(params.get("page")) - 1;
-	} else {
-		currentPage = 1;
-	}
-
-	console.log(`${currentPage}/${maxPage}`)
-
+	$: console.log(`${currentPage}/${data.numPages}`)
 
 	function handleOrderBy(order) {
 		orderBy = order;
@@ -69,7 +58,7 @@
 	<h1 class="flex text-6xl ml-20 text-pink-700 uppercase font-bold">Acórdãos</h1>
 	<div class="flex-col mt-4 justify-center items-center w-full">
 		<div class="flex-col ml-20 w-2/3">
-		<form class="flex flex-col items-center" on:submit={() => handleSubmitForm()}>
+		<form class="flex flex-col items-center mt-2" on:submit={() => handleSubmitForm()}>
 				<input
 					class="placeholder:italic placeholder:text-slate-400 block bg-white w-full border border-slate-300 rounded-md py-2 pl-9 pr-3 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm"
 					placeholder={searchKeywords ? searchKeywords : 'Pesquisar...'}
@@ -78,7 +67,7 @@
 					bind:value={searchKeywords}
 				/>
 		</form>
-		<div class="flex flex-col">
+		<div class="flex flex-col mt-2">
 			<div class="flex flex-row justify-evenly">
 			<h4 class="text-md mt-4 dark:text-white">Ordenar por:</h4>
 		<div class="flex flex-row mt-2 ml-10">
@@ -92,14 +81,18 @@
 			<button on:click={() => handleOrderType("asc")}><Button>Ascendente</Button></button>
 			<button class="ml-2" on:click={() => handleOrderType("desc")}><Button>Descendente</Button></button>
 		</div>
+		</div>
 	</div>
 </div>
 	{#if data?.success}
-		<div class="flex flex-col mt-2 dark:text-white w-full items-center justify-evenly">
+	{#if data.numPages < 1}
+	<div class="flex flex-col mt-4 dark:text-white ml-20"></div>
+	{:else}
+		<div class="flex flex-col mt-4 dark:text-white ml-20 justify-evenly">
 		{#each data.acordaos as acordao}
 		<div class="flex flex-col mt-4">
 			<div class="flex flex-row">
-				<div class="flex flex-col">
+				<div class="flex flex-col w-2/3">
 					<div class="flex flex-row">
 						<div class="flex flex-row">
 							<p class="text-xl font-bold">Processo: </p>
@@ -121,7 +114,7 @@
 		{/each}
 		</div>
 		<div class="mt-3 dark:text-white">
-			{#if currentPage > 1 && currentPage < maxPage}
+			{#if currentPage > 1 && currentPage < data.numPages}
 			<div class="flex flex-row justify-evenly">
 				<a
 					href="/acordaos?page={currentPage - 1}&keywords={searchKeywords
@@ -138,7 +131,7 @@
 					<Button>Próxima</Button>
 				</a>
 			</div>
-			{:else if currentPage === 1  && currentPage < maxPage}
+			{:else if currentPage === 1  && currentPage < data.numPages}
 			<div class="flex flex-row justify-evenly">
 				<Button type="secondary">Anterior</Button>
 				<a
@@ -149,12 +142,12 @@
 					<Button>Próxima</Button>
 				</a>
 			</div>
-			{:else if currentPage === 1 && currentPage === maxPage}
+			{:else if currentPage === 1 && currentPage === data.numPages}
 			<div class="flex flex-row justify-evenly">
 				<Button type="secondary">Anterior</Button>
 				<Button type="secondary">Próxima</Button>
 			</div>
-			{:else if currentPage > 1 && currentPage === maxPage}
+			{:else if currentPage > 1 && currentPage === data.numPages}
 			<div class="flex flex-row justify-evenly">
 				<a
 				href="/acordaos?page={currentPage - 1}&keywords={searchKeywords
@@ -168,6 +161,6 @@
 			{/if}
 		</div>
 	{/if}
+	{/if}
 	</div>
-</div>
 </div>
