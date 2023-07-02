@@ -13,4 +13,14 @@
 	>
 		<slot />
 	</button>
+{:else if type === 'accept'}
+	<button
+		class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+		<slot />
+	</button>
+{:else if type === 'reject'}
+	<button
+		class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+		<slot />
+	</button>
 {/if}
