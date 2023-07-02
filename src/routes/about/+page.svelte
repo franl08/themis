@@ -2,7 +2,7 @@
 	import '../../app.css';
 </script>
 
-<div class="flex flex-col mt-5">
+<div class="flex flex-col mt-5 mr-36">
 	<h1 class="flex text-6xl ml-20 text-pink-700 uppercase font-bold">Porquê Acorthemis?</h1>
 	<div class="flex flex-col text-xl dark:text-white ml-36 mt-4">
 		<p>
