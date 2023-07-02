@@ -54,7 +54,7 @@
 
 {#if dados}
 <div class="flex flex-col mt-5">
-	<h1 class="flex text-6xl ml-20 text-pink-700 uppercase font-bold">Detalhes Acordão</h1>
+	<h1 class="flex text-6xl ml-20 text-pink-700 uppercase font-bold">Detalhes Acórdão</h1>
 </div>
 
 <div class="flex flex-row justify-start mt-4 ml-36 dark:text-white">
@@ -146,7 +146,7 @@
     {#if dados.data_acordao}
       <div class="flex flex-col mt-4">
         <h2 class="flex text-4xl rounded-md uppercase font-bold">
-          <p class="bg-pink-700 text-uppercase text-white rounded-md">data do acordão</p>
+          <p class="bg-pink-700 text-uppercase text-white rounded-md">data do acórdão</p>
         </h2>
         <p class="flex  mt-2">{dados.data_acordao}</p>
       </div>
