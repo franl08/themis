@@ -20,8 +20,7 @@
 			<div class="flex flex-col mt-4">
 				<div class="flex flex-row">
 					<div class="flex w-2/3">
-							<p class="text-xl font-bold">Nome: </p>
-							<p class="text-md ml-2">{lista.nome}</p>
+							<p class="text-2xl ml-2">{lista.nome}</p>
 					</div>
 					<a href="/user/lists/{lista._id}" class="ml-20"><Button>Ver Lista</Button></a>
 				</div>
