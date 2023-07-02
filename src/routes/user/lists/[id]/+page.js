@@ -1,22 +1,22 @@
 // @ts-nocheck
 
-import { BACKEND_URL } from '../../global.js';
-import { session } from '../../stores.js';
+import { BACKEND_URL } from '../../../../global';
+import { session } from '../../../../stores';
 import { get } from 'svelte/store';
 import axios from 'axios';
 
 export async function load({ params }) {
-	async function getListas(id) {
+	async function getLista(id) {
 		return axios
-			.get(BACKEND_URL + `/listas/${id}`, {
+			.get(BACKEND_URL + `/lists?listId=${id}`, {
 				headers: {
-					Authorization: `Bearer ${get(session.token)}`
+					Authorization: `Bearer ${get(session).token}`
 				}
 			})
 			.then((res) => {
 				console.log(res.data);
 				return {
-					listas: res.data.lists,
+					lista: res.data,
 					success: true
 				};
 			})
@@ -29,5 +29,5 @@ export async function load({ params }) {
 			});
 	}
 
-	return getListas(params.id);
+	return getLista(params.id);
 }

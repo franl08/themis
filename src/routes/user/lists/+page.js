@@ -1,22 +1,36 @@
 // @ts-nocheck
-export async function load({ params, fetch }) {
-	const page = params.page.url.searchParams.get('page');
-	const orderBy = params.page.url.searchParams.get('orderBy');
-	const keywords = params.page.url.searchParams.get('keywords');
 
-	async function getAcordaosSavedByUser(page, orderBy, keywords) {
-		if (!page) page = 0;
-		if (!orderBy) orderBy = 'data';
-		if (!keywords) keywords = '';
-		const res = await fetch(
-			`https://api.juris.ninja/acordaos/saved?page=${page}&orderBy=${orderBy}&keywords=${keywords}`
-		);
+import { BACKEND_URL } from '../../../global';
+import { session } from '../../../stores';
+import { get } from 'svelte/store';
+import axios from 'axios';
 
-		const data = await res.json();
-		return data;
+export async function load() {
+	let username = get(session).user;
+	let token = get(session).token;
+
+	async function getListsByUser(username, token) {
+		return axios
+			.get(BACKEND_URL + `/lists?username=${username}`, {
+				headers: {
+					Authorization: `Bearer ${token}`
+				}
+			})
+			.then((res) => {
+				console.log(res.data);
+				return {
+					listas: res.data,
+					success: true
+				};
+			})
+			.catch((err) => {
+				console.log(err);
+				return {
+					success: false,
+					error: err
+				};
+			});
 	}
 
-	return {
-		acordaos: getAcordaosSavedByUser(page, orderBy, keywords)
-	};
+	return getListsByUser(username, token);
 }
