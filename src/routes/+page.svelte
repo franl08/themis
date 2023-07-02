@@ -100,9 +100,7 @@
 			</p>
 			<div class="flex mt-2 justify-center">
 				<a href="/login"
-					><button class="bg-pink-700 hover:bg-pink-800 text-sm text-white rounded-md">
-						<p class="m-2">Inicia já a tua sessão</p></button
-					>
+					><Button><p class="m-2">Inicia já a tua sessão</p></Button>
 				</a>
 			</div>
 		</div>
