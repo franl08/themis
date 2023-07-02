@@ -16,6 +16,8 @@
 	export let data;
 	let dados = undefined;
 
+  let notDeleted = false, notAdded = false, showModal = false;
+
 	export const err_ = writable(undefined);
 
 	onMount (async () => { 
@@ -36,6 +38,16 @@
 			goto('/error', { status: err.response.status, error: err.response.data });
 		});
 	});
+
+  function deleteAcordao(id) {
+      axios.delete(`${BACKEND_URL}/acordaos/${id}`, { headers: { Authorization: `Bearer ${session.get('token')}` } }).then((res) => {
+          if (res.status === 200) {
+              goto('/')
+          } else {
+              notDeleted = true;
+          }
+      })
+    }
 	
 
 </script>
@@ -44,6 +56,38 @@
 <div class="flex flex-col mt-5">
 	<h1 class="flex text-6xl ml-20 text-pink-700 uppercase font-bold">Detalhes Acordão</h1>
 </div>
+
+<div class="flex flex-row justify-start mt-4 ml-36 dark:text-white">
+  {#if $session.role === 'ADMIN'}
+  <div class="flex flex-col mt-4">
+      <button on:click={() => {deleteAcordao(dados._id)}}>
+      <Button type='reject'>
+          <p class="m-2">Eliminar Acórdão</p>
+      </Button>
+      </button>
+  </div>
+  {/if}
+  <div class="flex flex-row mt-4 ml-4">
+      <button on:click={() => {showModal = true}}>
+          <Button>
+              <p class="m-2">Adicionar a Lista</p>
+      </Button>
+      </button>
+  </div>
+  <div class="flex flex-row mt-4 ml-4">
+    <button on:click={() => {goto(`/acordaos/edit/${dados._id}`)}}>
+        <Button>
+            <p class="m-2">Sugerir Edição</p>
+    </Button>
+    </button>
+</div>
+</div>
+
+{#if notDeleted}
+    <div class="flex flex-row justify-center mt-4 ml-36 mr-36 dark:text-white">
+        <p class="text-red-500">Não foi possível eliminar</p>
+    </div>
+{/if}
 
 <div class="flex flex-col ml-36 mr-36 mt-4 dark:bg-indigo-900 bg-gray-300 rounded-md">
   

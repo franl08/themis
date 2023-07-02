@@ -1,70 +1,57 @@
 <script>
+    // @ts-nocheck
     import Button from '$lib/Button.svelte';
+    import axios from 'axios';
+    import { BACKEND_URL } from '../../../global';
+    import { session } from '../../../stores';
 
-    let dados = {
-        processo: "123",
-        id_acordao: "500",
-        relator: "Nhunhu",
-        descritores: ["descritor1", "descritor2"],
-        n_documento: "42",
-        data_acordao: "1-1-2023",
-        especie: "tortulho",
-        requerente: "Ric",
-        texto_integral: "I made a severe and continuous lapse in my judgement, and I don’t expect to be forgiven. I’m simply here to apologise. What we came across in the woods that day was obviously unplanned. The reactions you saw on tape were raw; they were unfiltered. None of us knew how to react or how to feel. I should have never posted the video. I should have put the cameras down and stopped recording what we were going through. There's a lot of things I should have done differently but I didn't. And for that, from the bottom of my heart, I am sorry. I want to apologise to the internet. I want to apologise to anyone who has seen the video. I want to apologise to anyone who has been affected or touched by mental illness, or depression, or suicide. But most importantly I want to apologise to the victim and his family. For my fans who are defending my actions, please don't. I don’t deserve to be defended. My goal with my content is always to entertain; to push the boundaries, to be all-inclusive. In the world live in, I share almost everything I do. The intent is never to be heartless, cruel, or malicious. Like I said I made a huge mistake. I don’t expect to be forgiven, I’m just here to apologise. I'm ashamed of myself. I’m disappointed in myself. And I promise to be better. I will be better. Thank you.",
-        url: "https://github.com/franl08/themis",
-        tribunal: "do bairro",
-        votacao: "ovo ou a galinha?",
-        privacidade: "facebook is watching",
-        n_convencional: "78",
-        decisao: "não.",
-        sumario: "hoje vamos dar a multiplicação",
-        requerido: "Pires",
-        area_tematica_1: ["cão", "gato"],
-        area_tematica_2: ["peixinho1", "peixinho2"],
-        indicacoes_eventuais: "mindinho",
-        tribunal_1_instancia: "tribunal 1",
-        autor: "Camões",
-        reu: "Luís",
-        seccao: "abcd",
-        tribunal_nome: "nome do tribunal",
-        recorrido_1: "recorridoooooo",
-        meio_processual: "porque não inteiro?",
-        recorrente: "RECURSIVIDADE",
-        recorrido_2: "recorridoooooooooooo2",
-        decisao_texto_integral: "blablablablablabla",
-        tribunal_recorrido: "blax2",
-        processo_tribunal_recorrido: "trin«bunal já nem sei escrever",
-        tribunal_recurso: "recurso :')",
-        processo_tribunal_recurso: "tribunal do recuros? :')",
-        magistrado: "magistrado",
-        referencias: {
-        legislacao_nacional: [String],
-        normas_apreciadas: [String],
-        constituicao: [String],
-        normas_julgadas_inconst: [String],
-        normas_suscitadas: [String],
-        jurisprudencia_constitucional: [String],
-        normas_declaradas_inconst: [String],
-        referencias_internacionais: [String],
-        referencia_pareceres: [String],
-        legislacao_comunitaria: [String],
-        outras_publicacoes: [String],
-        outra_jurisprudencia: [String],
-        legislacao_estrangeira: [String],
-        jurisprudencia_estrangeira: [String],
-        jurisprudencia_internacional: [String],
-        objecto: [String],
-        jurisprudencia_nacional: [String],
-        referencia_doutrina: [String],
-        referencia_publicacao: String,
-        recusa_aplicacao: [String],
-        },
-        anotacoes_extra: "fiambre da perna extra é o melhor",
-        user: "maria",
-        data_review: {type: Date, default: new Date()},
-        adicionar: true,
-  }
+  /** @type {import('./$types').Pageuser} */
+    export let data;
+    let dados = undefined;  
+    export const err_ = writable(undefined);    
+    onMount (async () => { 
+    	dados = await axios
+    	.get(`${BACKEND_URL}/acordaos/${data.id}`, {
+    		headers: {
+    			Authorization: `Bearer ${$session.token}`
+    		}
+    	})
+    	.then((res) => {
+    		if (res.status !== 200) {
+    			throw error(res.status, { message: 'Acórdão not found'});
+    		} else {
+    			return res.data;
+    		}
+    	})
+    	.catch((err) => {
+    		goto('/error', { status: err.response.status, error: err.response.data });
+    	});
+    });
 
+    let notDeleted = false;
+    let notAccepted = false;
+
+    function deleteReview(id) {
+      axios.delete(`${BACKEND_URL}/reviews/${id}`, { headers: { Authorization: `Bearer ${session.get('token')}` } }).then((res) => {
+          if (res.status === 200) {
+              goto('/')
+          } else {
+              notDeleted = true;
+          }
+      })
+    }
+
+    function acceptReview(id) {
+      axios.post(`${BACKEND_URL}/reviews/accept/${id}`, {}, { headers: { Authorization: `Bearer ${session.get('token')}` } }).then((res) => {
+          if (res.status === 200) {
+              goto('/')
+          } else {
+              notAccepted = true;
+          }
+      }).catch((err) => {
+          notAccepted = true;
+      })
+    }
 </script>
 
 
@@ -74,16 +61,32 @@
 
 <div class="flex flex-row justify-start mt-4 ml-36 mr-36 dark:text-white">
     <div class="flex flex-col mt-4">
+        <button on:click={() => {acceptReview(dados._id)}}>
         <Button type='accept'>
             <p class="m-2">Aceitar</p>
         </Button>
+        </button>
     </div>
     <div class="flex flex-row mt-4 ml-4">
-        <Button type='reject'>
-            <p class="m-2">Rejeitar</p>
+        <button on:click={() => {deleteReview(dados._id)}}>
+            <Button type='reject'>
+                <p class="m-2">Rejeitar</p>
         </Button>
+        </button>
     </div>
 </div>
+
+{#if notAccepted}
+    <div class="flex flex-row justify-center mt-4 ml-36 mr-36 dark:text-white">
+        <p class="text-red-500">Não foi possível aceitar</p>
+    </div>
+{/if}
+
+{#if notDeleted}
+    <div class="flex flex-row justify-center mt-4 ml-36 mr-36 dark:text-white">
+        <p class="text-red-500">Não foi possível rejeitar</p>
+    </div>
+{/if}
 
 <div class="flex flex-col ml-36 mr-36 mt-4 dark:bg-indigo-900 bg-gray-300 rounded-md">
 

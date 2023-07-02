@@ -54,7 +54,8 @@
 	onMount(() => {
 		loggedInOptions = [
 		{ name: 'Página Principal', href: '/' },
-		{ name : 'Acórdãos', href: '/acordaos'},
+		{ name: 'Acórdãos', href: '/acordaos'},
+		{ name: 'Sugerir Adição', href: '/acordaos/add'},
 		{ name: 'Listas', href: `/user/lists` },
 		{ name: 'Adicionar Lista', href: `/user/lists/add` },
 		{ name: `${$session.user}`, href: `/user/${$session.user}` },
@@ -65,6 +66,7 @@
 		adminOptions = [
 		{ name: 'Página Principal', href: '/' },
 		{ name: 'Acórdãos', href: '/acordaos'},
+		{ name: 'Sugerir Adição', href: '/acordaos/add'},
 		{ name: 'Listas', href: `/user/lists` },
 		{ name: 'Adicionar Lista', href: `/user/lists/add` },
 		{ name: `${$session.user}`, href: `/user/${$session.user}` },

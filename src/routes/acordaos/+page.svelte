@@ -94,18 +94,18 @@
 			<div class="flex flex-row">
 				<div class="flex flex-col w-2/3">
 					<div class="flex flex-row">
-						<div class="flex flex-row">
-							<p class="text-xl font-bold">Processo: </p>
-							<p class="text-md ml-2">{acordao.processo}</p>
+						<div class="flex flex-row  w-1/4">
+							<p class="text-xl text-pink-700 font-extrabold">Processo: </p>
+							<p class="text-xl ml-1">{acordao.processo}</p>
 						</div>
-						<div class="flex flex-row ml-10">
-							<p class="text-xl font-bold">Data do Acórdão: </p>
-							<p class="text-md ml-2">{acordao.data_acordao}</p>
+						<div class="flex flex-row ml-10 w-3/2">
+							<p class="text-xl text-pink-700 font-bold">Data do Acórdão: </p>
+							<p class="text-xl ml-2">{acordao.data_acordao}</p>
 						</div>
 					</div>
 					<div class="flex flex-row">
-						<p class="text-xl font-bold">URL: </p>
-						<p class="text-md">{acordao.url}</p>
+						<p class="text-md text-pink-700 font-bold">URL: </p>
+						<p class="text-md ml-2">{acordao.url}</p>
 					</div>
 				</div>
 				<a href="/acordaos/{acordao._id}" class="ml-20"><Button>Ver Acórdão</Button></a>
