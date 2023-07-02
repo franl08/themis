@@ -68,7 +68,7 @@
 	<h1 class="flex text-6xl ml-20 text-pink-700 uppercase font-bold">Revisão</h1>
 </div>
 
-<div class="flex flex-col ml-24 mr-24 dark:text-white">
+<div class="flex flex-col ml-36 mr-36 dark:text-white">
     {#if dados.processo}
     <div class="flex flex-col mt-4">
         <h2 class="flex text-4xl rounded-md uppercase font-bold">
