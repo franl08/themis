@@ -1,10 +1,6 @@
 <script>
 	// @ts-nocheck
 	import Button from '$lib/Button.svelte';
-	import { BACKEND_URL } from '../../global';
-	import { goto } from '$app/navigation';
-	import { session } from "../../stores";
-	import axios from 'axios';
 
 	export let data;
 
@@ -29,22 +25,22 @@
 							<div class="flex flex-col w-2/3">
 								<div class="flex flex-row">
 									<div class="flex flex-row">
-										<p class="text-xl font-bold">Processo: </p>
-										<p class="text-md ml-2">{review.processo}</p>
+										<p class="text-xl text-pink-700 font-bold">Processo: </p>
+										<p class="text-xl ml-2">{review.processo}</p>
 									</div>
 									<div class="flex flex-row ml-10">
-										<p class="text-xl font-bold">Data de Submissão: </p>
-										<p class="text-md ml-2">{review.data_review}</p>
+										<p class="text-xl text-pink-700 font-bold">Data de Submissão: </p>
+										<p class="text-xl ml-2">{review.data_review}</p>
 									</div>
 								</div>
 								<div class="flex flex-row">
 									<div class="flex flex-row">
-										<p class="text-xl font-bold">Tipo: </p>
-										<p class="text-md">{review.adicionar ? "Adição" : "Edição"}</p>
+										<p class="text-xl text-pink-700 font-bold">Tipo: </p>
+										<p class="text-xl ml-2">{review.adicionar ? "Adição" : "Edição"}</p>
 									</div>
 									<div class="flex flex-row ml-10">
-										<p class="text-xl font-bold">Username: </p>
-										<p class="text-md">{review.user}</p>
+										<p class="text-xl text-pink-700 font-bold">Username: </p>
+										<p class="text-xl ml-2">{review.user}</p>
 									</div>
 								</div>
 							</div>

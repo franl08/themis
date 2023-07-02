@@ -2,6 +2,7 @@
 	// @ts-nocheck
 
   import Button from '$lib/Button.svelte';
+  import Modal from '$lib/Modal.svelte';
 	import '../../../app.css';
 	import { session } from '../../../stores';
 	import { writable } from 'svelte/store';
@@ -17,6 +18,8 @@
 	let dados = undefined;
 
   let notDeleted = false, notAdded = false, showModal = false;
+
+  $: showModal;
 
 	export const err_ = writable(undefined);
 
@@ -48,6 +51,42 @@
           }
       })
     }
+
+  let listas = undefined;
+    
+  function handleShowModal() {
+    axios.get(`${BACKEND_URL}/lists?username=${$session.user}`).then((res) => {
+      if(res.status !== 200) {
+        throw error(res.status, { message: 'Lists not found'});
+      } else {
+        listas = res.data;
+        showModal = true;
+      }
+    }).catch((err) => {
+      goto('/error', { status: err.response.status, error: err.response.data });
+    })
+  }
+
+  function handleAddToLista(lista_id) {
+    axios.post(`${BACKEND_URL}/lists?listId=${lista_id}`, {
+      "id_acordao": dados._id,
+      "processo": dados.processo,
+      "url": dados.url,
+      "tribunal": dados.tribunal
+    }, {
+      headers: {
+        Authorization: `Bearer ${$session.token}`
+      }
+    }).then((res) => {
+      if(res.status === 200) {
+        showModal = false;
+      } else {
+        notAdded = true;
+      }
+    }).catch((err) => {
+      goto('/error', { status: err.response.status, error: err.response.data });
+    })
+  }
 	
 
 </script>
@@ -68,7 +107,7 @@
   </div>
   {/if}
   <div class="flex flex-row mt-4 ml-4">
-      <button on:click={() => {showModal = true}}>
+      <button on:click={() => {handleShowModal()}}>
           <Button>
               <p class="m-2">Adicionar a Lista</p>
       </Button>
@@ -611,5 +650,16 @@
     {/if}
   </div>
 
+  {#if showModal}
+    <Modal>
+      {#each listas as lista}
+        <button on:click={() => handleAddToLista(lista._id)}>
+          <Button>
+          {lista.nome}
+          </Button>
+        </button>
+      {/each}
+    </Modal>
+  {/if}
 </div>
 {/if}

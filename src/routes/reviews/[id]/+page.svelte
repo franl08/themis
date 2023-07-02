@@ -3,15 +3,15 @@
     import Button from '$lib/Button.svelte';
     import axios from 'axios';
     import { BACKEND_URL } from '../../../global';
+    import { goto } from '$app/navigation';
     import { session } from '../../../stores';
+    import { onMount } from 'svelte';
 
   /** @type {import('./$types').Pageuser} */
     export let data;
     let dados = undefined;  
-    export const err_ = writable(undefined);    
     onMount (async () => { 
-    	dados = await axios
-    	.get(`${BACKEND_URL}/acordaos/${data.id}`, {
+    	dados = await axios.get(`${BACKEND_URL}/reviews/${data.id}`, {
     		headers: {
     			Authorization: `Bearer ${$session.token}`
     		}
@@ -32,7 +32,7 @@
     let notAccepted = false;
 
     function deleteReview(id) {
-      axios.delete(`${BACKEND_URL}/reviews/${id}`, { headers: { Authorization: `Bearer ${session.get('token')}` } }).then((res) => {
+      axios.delete(`${BACKEND_URL}/reviews/${id}`, { headers: { Authorization: `Bearer ${$session.token}` } }).then((res) => {
           if (res.status === 200) {
               goto('/')
           } else {
@@ -42,19 +42,21 @@
     }
 
     function acceptReview(id) {
-      axios.post(`${BACKEND_URL}/reviews/accept/${id}`, {}, { headers: { Authorization: `Bearer ${session.get('token')}` } }).then((res) => {
+    console.log("aceitar");
+      axios.post(`${BACKEND_URL}/reviews/accept/${id}`, {}, { headers: { Authorization: `Bearer ${$session.token}` } }).then((res) => {
           if (res.status === 200) {
               goto('/')
           } else {
               notAccepted = true;
           }
       }).catch((err) => {
+          console.log(err);
           notAccepted = true;
       })
     }
 </script>
 
-
+{#if dados}
 <div class="flex flex-col mt-5">
 	<h1 class="flex text-6xl ml-20 text-pink-700 uppercase font-bold">Revisão</h1>
 </div>
@@ -644,4 +646,4 @@
     </div>
 
 </div>
-
+{/if}

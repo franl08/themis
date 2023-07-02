@@ -1,25 +1,49 @@
 <script>
 	// @ts-nocheck
-
-	import Button from '$lib/Button.svelte';
-    import '../../../../app.css';
-	import { goto } from '$app/navigation';
-	import { browser } from "$app/environment"; 
+  
+	import Button from "$lib/Button.svelte";
+	import "../../../../app.css";
+	import { goto } from "$app/navigation";
+	import { session } from "./../../../../stores.js";
+	import { browser } from "$app/environment";
+	import axios from "axios";
+	import { BACKEND_URL } from "./../../../../global";
 	/** @type {import('./$types').PageData} */
-
-
+  
 	export let form;
-
+  
 	$: form, addLista();
-
+  
 	function addLista() {
-		if (form && form?.success) {
-			if(browser) {
-				goto('/');
+	  if (form && form?.success) {
+		form.data["username"] = $session.user;
+		axios
+		  .post(`${BACKEND_URL}/lists`, form.data, {
+			headers: {
+			  Authorization: `Bearer ${$session.token}`,
+			},
+		  })
+		  .then((res) => {
+			if (res.status === 200) {
+			  if (browser) {
+				goto("/");
+			  }
+			  return {
+				success: true,
+				error: undefined,
+			  };
 			}
-		}
+		  })
+		  .catch((err) => {
+			return {
+			  success: false,
+			  error: "Error creating list.",
+			};
+		  });
+	  }
 	}
-</script>
+  </script>
+  
 
 <div class="flex flex-col mt-5">
 	<h1 class="flex text-6xl ml-20 text-pink-700 uppercase font-bold">CRIAÇÃO DE LISTA</h1>
