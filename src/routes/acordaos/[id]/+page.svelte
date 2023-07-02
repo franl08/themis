@@ -1,66 +1,46 @@
 <script>
-    let dados =  {
-    _id: "0xyz",
-    processo: "Nome do Processo",
-    relator: "SUPER RELATOR",
-    descritores: ["Descritor1", "Descritor2"],
-    n_documento: "01-230-0",
-    data_acordao: "10/02/2023",
-    especie: "Rara",
-    requerente: "MARIA",
-    texto_integral: "Santo Tirso é bué fixe",
-    url: "/urlurlurlurlurl",
-    tribunal: "tjoc2",
-    votacao: "votamos e achamos que sim",
-    privacidade: "é uma mentira",
-    n_convencional: "90909090",
-    decisao: "REVOGADO",
-    sumario: "sumariado",
-    requerido: "Senhor Pato",
-    area_tematica_1: ["Area 1", "Area 2"],
-    area_tematica_2: ["Mais Areas", "Mais ainda"],
-    indicacoes_eventuais: "não há",
-    tribunal_1_instancia: "yup",
-    autor: "joseé",
-    reu: "josé",
-    seccao: "do peixe",
-    tribunal_nome: "tribunal constitucional",
-    recorrido_1: "recorrido",
-    meio_processual: "uh?",
-    recorrente: "recoorrente",
-    recorrido_2: "fodase",
-    decisao_texto_integral: "tou farto",
-    tribunal_recorrido: "de escrever",
-    processo_tribunal_recorrido: "merdas",
-    tribunal_recurso: "ainda",
-    processo_tribunal_recurso: "não",
-    magistrado: "acabou",
-    referencias: {
-      legislacao_nacional: ["yye", "yey"],
-      normas_apreciadas: ["byu", "bro"],
-      constituicao: ["ze"],
-      normas_julgadas_inconst: ["cenas"],
-      normas_suscitadas: ["lolitos"],
-      jurisprudencia_constitucional: ["nnnn"],
-      normas_declaradas_inconst: ["aaaa"],
-      referencias_internacionais: ["String"],
-      referencia_pareceres: ["String"],
-      legislacao_comunitaria: ["String"],
-      outras_publicacoes: ["String"],
-      outra_jurisprudencia: ["String"],
-      legislacao_estrangeira: ["String"],
-      jurisprudencia_estrangeira: ["String"],
-      jurisprudencia_internacional: ["String"],
-      objecto: ["String"],
-      jurisprudencia_nacional: ["String"],
-      referencia_doutrina: ["String"],
-      referencia_publicacao: "String",
-      recusa_aplicacao: ["String"],
-    },
-    anotacoes_extra: "String"
-}
+	// @ts-nocheck
+
+  import Button from '$lib/Button.svelte';
+	import '../../../app.css';
+	import { session } from '../../../stores';
+	import { writable } from 'svelte/store';
+	import { BACKEND_URL } from '../../../global';
+	import axios from 'axios';
+	import { goto } from '$app/navigation';
+	import { browser } from '$app/environment';
+	import { error } from '@sveltejs/kit';
+	import { onMount } from 'svelte';
+	
+  /** @type {import('./$types').Pageuser} */
+	export let data;
+	let dados = undefined;
+
+	export const err_ = writable(undefined);
+
+	onMount (async () => { 
+		dados = await axios
+		.get(`${BACKEND_URL}/acordaos/${data.id}`, {
+			headers: {
+				Authorization: `Bearer ${$session.token}`
+			}
+		})
+		.then((res) => {
+			if (res.status !== 200) {
+				throw error(res.status, { message: 'Acórdão not found'});
+			} else {
+				return res.data;
+			}
+		})
+		.catch((err) => {
+			goto('/error', { status: err.response.status, error: err.response.data });
+		});
+	});
+	
+
 </script>
 
+{#if dados}
 <div class="flex flex-col mt-5">
 	<h1 class="flex text-6xl ml-20 text-pink-700 uppercase font-bold">Detalhes Acordão</h1>
 </div>
@@ -543,6 +523,6 @@
       <p class="flex  mt-2">{dados.anotacoes_extra}</p>
     </div>
   {/if}
-  
 
 </div>
+{/if}

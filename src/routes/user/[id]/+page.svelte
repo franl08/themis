@@ -30,10 +30,8 @@
 		})
 		.then((res) => {
 			if (res.status !== 200) {
-				console.log("error vro", res.status);
 				throw error(res.status, { message: 'User not found'});
 			} else {
-				console.log("dados:", res.data);
 				return res.data;
 			}
 		})

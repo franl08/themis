@@ -48,7 +48,7 @@ export async function load({ url }) {
 		'anotacoes_extra'
 	];
 
-	async function getAcordaos(page, orderBy, keywords) {
+	async function getAcordaos(page, orderBy, keywords, columns) {
 		let filters = {};
 		if (!page) page = 1;
 		if (!orderBy) orderBy = '_id;desc';
@@ -58,17 +58,22 @@ export async function load({ url }) {
 			let regexp = /([^\s]+):"(.+)"/g;
 			const matches = [...keywords.matchAll(regexp)];
 			matches.forEach((match) => {
-				if (match[1] in columns) {
+				console.log(match[1]);
+				if (columns.includes(match[1])) {
+					console.log('match');
 					filters[match[1]] = match[2];
 					keywords = keywords.replace(match[0], '');
 				}
 			});
 		}
 		console.log(filters);
-		let url = `${BACKEND_URL}/acordaos?page=${page}&orderBy=${orderBy}&keywords=${keywords}`;
+		let url = `${BACKEND_URL}/acordaos?page=${page}&orderBy=${orderBy}&keywords=${
+			keywords ? keywords.trim() : ''
+		}`;
 
 		if (Object.keys(filters).length > 0) {
 			for (const [key, value] of Object.entries(filters)) {
+				console.log('key: ' + key + ' value: ' + value);
 				url += `&${key}=${value}`;
 			}
 		}
@@ -96,5 +101,5 @@ export async function load({ url }) {
 			});
 	}
 
-	return getAcordaos(page, orderBy, keywords);
+	return getAcordaos(page, orderBy, keywords, columns);
 }
