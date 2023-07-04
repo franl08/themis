@@ -49,7 +49,7 @@
 	<div class="flex flex-col h-1/2 justify-center w-full">
 		<h1 class="name flex justify-center text-9xl font-bold text-center dark:text-white">
 			acor
-			<div class="flex flex-col justify-center items-center">
+			<div class="flex flex-row justify-center items-center">
 				<p
 					class="text-pink-700 hover:underline hover:decoration-4 hover:{makeThemisAppear} hover:decoration-black dark:hover:decoration-white hover:underline-offset-8"
 					on:mouseenter={makeThemisAppear}
@@ -58,7 +58,7 @@
 					themis
 				</p>
 				{#if showThemis}
-					<div class="absolute top-20 z-0 hidden overflow-visible md:block">
+					<div class="hidden overflow-visible md:block">
 						<Themis classAttribute="w-20 h-20" />
 					</div>
 				{/if}

@@ -43,21 +43,27 @@
 							<div class="flex flex-col w-2/3">
 								<div class="flex flex-row">
 									<div class="flex flex-row">
-										<p class="text-xl font-bold">Processo: </p>
-										<p class="text-md ml-2">{acordao.processo}</p>
+										<p class="text-xl text-pink-700 font-bold">Processo: </p>
+										<p class="text-xl ml-2">{acordao.processo}</p>
 									</div>
-									<div class="flex flex-row">
-										<p class="text-xl font-bold">Tribunal: </p>
-										<p class="text-md ml-2">{acordao.tribunal}</p>
+									<div class="flex flex-row ml-2">
+										<p class="text-xl text-pink-700 font-bold">Tribunal: </p>
+										<p class="text-xl ml-2">{acordao.tribunal}</p>
 									</div>
 								</div>
 								<div class="flex flex-row">
-									<p class="text-xl font-bold">URL: </p>
-									<p class="text-md">{acordao.url}</p>
+									<p class="text-md text-pink-700 font-bold">URL: </p>
+									<p class="text-md ml-2">{acordao.url}</p>
 								</div>
 							</div>
-							<a href="/acordaos/{acordao.id_acordao}" class="ml-20"><Button>Ver Acórdão</Button></a>
-							<button on:click={() => {deleteAcordao(acordao.id_acordao, data.lista._id)}} class="ml-20"><Button>Remover Acórdão</Button></button>
+							<div class="flex flex-row justify-evenly">
+								<div>
+									<a href="/acordaos/{acordao.id_acordao}"><Button>Ver Acórdão</Button></a>
+								</div>
+								<div>
+									<button on:click={() => {deleteAcordao(acordao.id_acordao, data.lista._id)}} class="ml-20"><Button>Remover Acórdão</Button></button>
+								</div>
+							</div>
 						</div>
 					</div>
 					{/each}

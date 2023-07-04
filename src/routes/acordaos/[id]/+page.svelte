@@ -87,6 +87,10 @@
       goto('/error', { status: err.response.status, error: err.response.data });
     })
   }
+
+  function closeModal() {
+		showModal = false;
+	}
 	
 
 </script>
@@ -649,17 +653,17 @@
       </div>
     {/if}
   </div>
-
-  {#if showModal}
-    <Modal>
-      {#each listas as lista}
-        <button on:click={() => handleAddToLista(lista._id)}>
-          <Button>
-          {lista.nome}
-          </Button>
-        </button>
-      {/each}
-    </Modal>
-  {/if}
 </div>
+
+<Modal {showModal} on:click={closeModal}>
+  <div class="flex flex-col w-full">
+  {#each listas as lista}
+      <button on:click={() => handleAddToLista(lista._id)}>
+        <Button>
+        {lista.nome}
+        </Button>
+      </button>
+  {/each}
+    </div>
+</Modal>
 {/if}

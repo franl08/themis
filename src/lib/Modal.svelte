@@ -9,7 +9,7 @@
 		on:click|self
 	>
 		<div class="flex bg-slate-200 rounded-md w-1/3">
-			<div class="m-5">
+			<div class="m-5 w-full">
 				<slot />
 			</div>
 		</div>

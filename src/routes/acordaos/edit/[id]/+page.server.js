@@ -43,7 +43,7 @@ export const actions = {
 			}
 		}
 		data['referencias'] = refs;
-		data['adicionar'] = true;
+		data['adicionar'] = false;
 
 		console.log(data);
 
