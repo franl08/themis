@@ -17,13 +17,11 @@
 				}
 			})
 			.then((res) => {
-				console.log(res.data);
 				return {
 					listas: res.data,
 					success: true
 				};
 			}).catch((err) => {
-				console.log(err);
 				return {
 					success: false
 				};

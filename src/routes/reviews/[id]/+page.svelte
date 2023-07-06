@@ -42,7 +42,6 @@
     }
 
     function acceptReview(id) {
-    console.log("aceitar");
       axios.post(`${BACKEND_URL}/reviews/accept/${id}`, {}, { headers: { Authorization: `Bearer ${$session.token}` } }).then((res) => {
           if (res.status === 200) {
               goto('/')
@@ -50,7 +49,6 @@
               notAccepted = true;
           }
       }).catch((err) => {
-          console.log(err);
           notAccepted = true;
       })
     }

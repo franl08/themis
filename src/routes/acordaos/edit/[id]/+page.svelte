@@ -16,7 +16,6 @@
 	    let dados = undefined;
         
 	    onMount (async () => { 
-            console.log(data.id)
 	    	dados = await axios
 	    	.get(`${BACKEND_URL}/acordaos/${data.id}`, {
 	    		headers: {
@@ -36,9 +35,11 @@
 	    });
         
         function addInfo() {
+          if (browser) {
             if(form && form?.success) {
                     if(form.review) {
                         form.review['user'] = $session.user;
+                        form.review['id_acordao'] = data.id;
                         axios.post(`${BACKEND_URL}/reviews`, form.review, {
                             headers: {
                                 Authorization: `Bearer ${$session.token}`,
@@ -52,6 +53,7 @@
                         })
                 }
             }
+          }
         }
     
     </script>

@@ -23,8 +23,6 @@
 		orderBy = '_id';
 	}
 
-	$: console.log(`${currentPage}/${data.numPages}`)
-
 	function handleOrderBy(order) {
 		orderBy = order;
 		if(browser) {
@@ -45,7 +43,6 @@
 
 	function handleSubmitForm() {
 		if(browser) {
-			console.log(searchKeywords)
 			goto(`/acordaos?orderBy=${orderBy};${orderType}&keywords=${searchKeywords ? searchKeywords : ''}`).then(() => {
 				invalidateAll();
 			});

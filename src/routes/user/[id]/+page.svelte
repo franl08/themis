@@ -82,7 +82,6 @@
 	}
 
 	function deleteUser() {
-		console.log("delete");
 		if(browser) {
 			axios.delete(`${BACKEND_URL}/users/${data.id}`, {
 				headers: {
