@@ -22,9 +22,7 @@
                         },
                     }).then((res) => {
                         if(res.status === 200) {
-                            if(browser) {
                                 goto('/');
-                            }
                         }
                     }).catch((err) => {
                         goto('/error');

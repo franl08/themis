@@ -15,7 +15,9 @@
 	$: form, addLista();
   
 	function addLista() {
+	if (browser) {
 	  if (form && form?.success) {
+		console.log("add lista");
 		form.data["username"] = $session.user;
 		axios
 		  .post(`${BACKEND_URL}/lists`, form.data, {
@@ -25,9 +27,7 @@
 		  })
 		  .then((res) => {
 			if (res.status === 200) {
-			  if (browser) {
 				goto("/");
-			  }
 			  return {
 				success: true,
 				error: undefined,
@@ -41,6 +41,7 @@
 			};
 		  });
 	  }
+	}
 	}
   </script>
   

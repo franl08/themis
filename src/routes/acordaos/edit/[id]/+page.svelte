@@ -37,7 +37,6 @@
         
         function addInfo() {
             if(form && form?.success) {
-                if(browser) {
                     if(form.review) {
                         form.review['user'] = $session.user;
                         axios.post(`${BACKEND_URL}/reviews`, form.review, {
@@ -51,7 +50,6 @@
                         }).catch((err) => {
                             goto('/error');
                         })
-                    }
                 }
             }
         }
